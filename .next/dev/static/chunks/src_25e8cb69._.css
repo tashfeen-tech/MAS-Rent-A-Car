@@ -1,0 +1,673 @@
+/* [project]/src/components/Navbar.module.css [app-client] (css) */
+.Navbar-module__cJzEcG__nav {
+  z-index: 1000;
+  width: 100%;
+  transition: var(--transition-smooth);
+  padding: 24px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.Navbar-module__cJzEcG__scrolled {
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid var(--glass-border);
+  background: #050505d9;
+  padding: 12px 0;
+}
+
+.Navbar-module__cJzEcG__container {
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+}
+
+.Navbar-module__cJzEcG__logo {
+  align-items: center;
+  gap: 12px;
+  display: flex;
+}
+
+.Navbar-module__cJzEcG__logoIcon {
+  color: var(--primary);
+}
+
+.Navbar-module__cJzEcG__logoText {
+  flex-direction: column;
+  display: flex;
+}
+
+.Navbar-module__cJzEcG__brandName {
+  letter-spacing: 2px;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.Navbar-module__cJzEcG__brandSub {
+  letter-spacing: 3.5px;
+  color: var(--primary);
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.Navbar-module__cJzEcG__desktopMenu {
+  align-items: center;
+  gap: 40px;
+  display: flex;
+}
+
+.Navbar-module__cJzEcG__navLink {
+  color: var(--text-muted);
+  transition: var(--transition-smooth);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.Navbar-module__cJzEcG__navLink:hover {
+  color: var(--primary);
+}
+
+.Navbar-module__cJzEcG__mobileToggle {
+  color: #fff;
+  background: none;
+  display: none;
+}
+
+.Navbar-module__cJzEcG__mobileMenu {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  padding: 40px 24px;
+  display: flex;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+@media (max-width: 768px) {
+  .Navbar-module__cJzEcG__desktopMenu {
+    display: none;
+  }
+
+  .Navbar-module__cJzEcG__mobileToggle {
+    display: block;
+  }
+}
+
+/* [project]/src/components/CarCard.module.css [app-client] (css) */
+.CarCard-module__dr18qq__card {
+  background: var(--surface);
+  border: 1px solid var(--glass-border);
+  transition: var(--transition-smooth);
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.CarCard-module__dr18qq__card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 20px 40px #0006;
+}
+
+.CarCard-module__dr18qq__imageContainer {
+  width: 100%;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.CarCard-module__dr18qq__carImage {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  transition: transform .5s;
+}
+
+.CarCard-module__dr18qq__card:hover .CarCard-module__dr18qq__carImage {
+  transform: scale(1.06);
+}
+
+.CarCard-module__dr18qq__carTypeBadge {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: #000000bf;
+  border-radius: 50px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+}
+
+.CarCard-module__dr18qq__content {
+  padding: 24px;
+}
+
+.CarCard-module__dr18qq__header {
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.CarCard-module__dr18qq__name {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.CarCard-module__dr18qq__price {
+  flex-direction: column;
+  align-items: flex-end;
+  display: flex;
+}
+
+.CarCard-module__dr18qq__amount {
+  color: var(--primary);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.CarCard-module__dr18qq__unit {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.CarCard-module__dr18qq__specs {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 15px 0;
+  display: grid;
+}
+
+.CarCard-module__dr18qq__specItem {
+  color: var(--text-muted);
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  display: flex;
+}
+
+.CarCard-module__dr18qq__features {
+  gap: 12px;
+  margin-bottom: 24px;
+  display: flex;
+}
+
+.CarCard-module__dr18qq__feature {
+  color: var(--text-muted);
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  display: flex;
+}
+
+.CarCard-module__dr18qq__bookBtn {
+  background: var(--primary);
+  border: 1px solid var(--primary);
+  color: #fff;
+  width: 100%;
+  transition: var(--transition-smooth);
+  border-radius: 12px;
+  padding: 12px;
+  font-weight: 600;
+}
+
+.CarCard-module__dr18qq__bookBtn:hover {
+  background: var(--primary);
+  color: #000;
+  border-color: var(--primary);
+}
+
+/* [project]/src/components/BookingModal.module.css [app-client] (css) */
+.BookingModal-module__EmgdDq__overlay {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  z-index: 2000;
+  background: #000000d9;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.BookingModal-module__EmgdDq__modal {
+  background: var(--surface);
+  border: 1px solid var(--glass-border);
+  border-radius: 32px;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  position: relative;
+  overflow: hidden auto;
+}
+
+.BookingModal-module__EmgdDq__closeBtn {
+  background: var(--glass);
+  color: #fff;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  transition: var(--transition-smooth);
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: absolute;
+  top: 24px;
+  right: 24px;
+}
+
+.BookingModal-module__EmgdDq__closeBtn:hover {
+  background: var(--primary);
+  color: #000;
+}
+
+.BookingModal-module__EmgdDq__grid {
+  grid-template-columns: 1fr 1.5fr;
+  display: grid;
+}
+
+.BookingModal-module__EmgdDq__carInfo {
+  border-right: 1px solid var(--border);
+  background: #111;
+  padding: 48px;
+}
+
+.BookingModal-module__EmgdDq__carImagePlaceholder {
+  aspect-ratio: 16 / 9;
+  background: #1a1a1a;
+  border-radius: 16px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 32px;
+  display: flex;
+}
+
+.BookingModal-module__EmgdDq__carInfo h3 {
+  margin-bottom: 8px;
+  font-size: 28px;
+}
+
+.BookingModal-module__EmgdDq__carType {
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.BookingModal-module__EmgdDq__priceTag {
+  margin-bottom: 32px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.BookingModal-module__EmgdDq__priceTag span {
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.BookingModal-module__EmgdDq__featureList {
+  flex-direction: column;
+  gap: 12px;
+  list-style: none;
+  display: flex;
+}
+
+.BookingModal-module__EmgdDq__featureList li {
+  color: var(--text-muted);
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  display: flex;
+}
+
+.BookingModal-module__EmgdDq__featureList li:before {
+  content: "•";
+  color: var(--primary);
+}
+
+.BookingModal-module__EmgdDq__formContainer {
+  padding: 48px;
+}
+
+.BookingModal-module__EmgdDq__formContainer h2 {
+  margin-bottom: 32px;
+  font-size: 28px;
+}
+
+.BookingModal-module__EmgdDq__form {
+  flex-direction: column;
+  gap: 20px;
+  display: flex;
+}
+
+.BookingModal-module__EmgdDq__inputGroup {
+  flex-direction: column;
+  gap: 8px;
+  display: flex;
+}
+
+.BookingModal-module__EmgdDq__inputRow {
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  display: grid;
+}
+
+.BookingModal-module__EmgdDq__inputGroup label {
+  color: var(--text-muted);
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+}
+
+.BookingModal-module__EmgdDq__inputGroup input {
+  border: 1px solid var(--border);
+  color: #fff;
+  transition: var(--transition-smooth);
+  background: #ffffff0d;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-family: inherit;
+  font-size: 15px;
+}
+
+.BookingModal-module__EmgdDq__inputGroup input:focus {
+  border-color: var(--primary);
+  background: #ffffff14;
+  outline: none;
+}
+
+.BookingModal-module__EmgdDq__toggleGroup {
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  display: flex;
+}
+
+.BookingModal-module__EmgdDq__toggle {
+  background: var(--glass);
+  border-radius: 10px;
+  padding: 4px;
+  display: flex;
+}
+
+.BookingModal-module__EmgdDq__toggle button {
+  color: var(--text-muted);
+  transition: var(--transition-smooth);
+  background: none;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.BookingModal-module__EmgdDq__toggle button.BookingModal-module__EmgdDq__active {
+  background: var(--primary);
+  color: #000;
+}
+
+.BookingModal-module__EmgdDq__submitBtn {
+  background: var(--primary);
+  color: #000;
+  transition: var(--transition-smooth);
+  border-radius: 12px;
+  margin-top: 10px;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.BookingModal-module__EmgdDq__submitBtn:hover:not(:disabled) {
+  box-shadow: 0 5px 15px var(--primary-glow);
+  transform: translateY(-2px);
+}
+
+.BookingModal-module__EmgdDq__submitBtn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.BookingModal-module__EmgdDq__successMessage {
+  text-align: center;
+  padding: 80px 48px;
+}
+
+.BookingModal-module__EmgdDq__successIcon {
+  background: var(--primary);
+  color: #000;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 32px;
+  font-size: 40px;
+  display: flex;
+}
+
+.BookingModal-module__EmgdDq__error {
+  color: #ff4d4d;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .BookingModal-module__EmgdDq__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .BookingModal-module__EmgdDq__carInfo {
+    display: none;
+  }
+
+  .BookingModal-module__EmgdDq__formContainer {
+    padding: 32px 24px;
+  }
+
+  .BookingModal-module__EmgdDq__inputRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* [project]/src/app/fleet/Fleet.module.css [app-client] (css) */
+.Fleet-module__R3dUVW__page {
+  background: var(--background);
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+.Fleet-module__R3dUVW__heroBanner {
+  background: linear-gradient(180deg, #0a0a0a 0%, var(--background) 100%);
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  padding: 80px 24px 60px;
+}
+
+.Fleet-module__R3dUVW__heroBanner h1 {
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 800;
+}
+
+.Fleet-module__R3dUVW__heroBanner p {
+  color: var(--text-muted);
+  max-width: 560px;
+  margin: 0 auto;
+  font-size: 18px;
+}
+
+.Fleet-module__R3dUVW__layout {
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 50px 24px 100px;
+  display: grid;
+}
+
+@media (max-width: 900px) {
+  .Fleet-module__R3dUVW__layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.Fleet-module__R3dUVW__sidebar {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  height: fit-content;
+  padding: 28px;
+  position: sticky;
+  top: 100px;
+}
+
+.Fleet-module__R3dUVW__sidebar h3 {
+  color: var(--primary);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.Fleet-module__R3dUVW__filterGroup {
+  margin-bottom: 28px;
+}
+
+.Fleet-module__R3dUVW__filterGroup label {
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  display: block;
+}
+
+.Fleet-module__R3dUVW__typeGrid {
+  flex-wrap: wrap;
+  gap: 8px;
+  display: flex;
+}
+
+.Fleet-module__R3dUVW__typeBtn {
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 13px;
+  font-family: var(--font-main);
+  transition: var(--transition-smooth);
+  cursor: pointer;
+  background: none;
+  border-radius: 50px;
+  padding: 6px 14px;
+}
+
+.Fleet-module__R3dUVW__typeBtn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.Fleet-module__R3dUVW__typeBtn.Fleet-module__R3dUVW__active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #000;
+  font-weight: 600;
+}
+
+.Fleet-module__R3dUVW__rangeInput {
+  width: 100%;
+  accent-color: var(--primary);
+  cursor: pointer;
+  height: 4px;
+}
+
+.Fleet-module__R3dUVW__rangeLabels {
+  color: var(--text-muted);
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 12px;
+  display: flex;
+}
+
+.Fleet-module__R3dUVW__priceValue {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.Fleet-module__R3dUVW__resetBtn {
+  border: 1px solid var(--border);
+  width: 100%;
+  color: var(--text-muted);
+  font-family: var(--font-main);
+  transition: var(--transition-smooth);
+  cursor: pointer;
+  background: none;
+  border-radius: 12px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.Fleet-module__R3dUVW__resetBtn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.Fleet-module__R3dUVW__grid {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  align-content: start;
+  gap: 28px;
+  display: grid;
+}
+
+.Fleet-module__R3dUVW__empty {
+  text-align: center;
+  color: var(--text-muted);
+  grid-column: 1 / -1;
+  padding: 80px 20px;
+}
+
+.Fleet-module__R3dUVW__empty p {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.Fleet-module__R3dUVW__empty button {
+  background: var(--primary);
+  color: #000;
+  cursor: pointer;
+  font-weight: 600;
+  font-family: var(--font-main);
+  border: none;
+  border-radius: 50px;
+  padding: 12px 28px;
+}
+
+/*# sourceMappingURL=src_25e8cb69._.css.map*/

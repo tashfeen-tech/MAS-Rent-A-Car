@@ -113,8 +113,8 @@
 
 .bookBtn {
     width: 100%;
-    background: transparent;
-    border: 1px solid var(--border);
+    background: var(--primary);
+    border: 1px solid var(--primary);
     color: #fff;
     padding: 12px;
     border-radius: 12px;

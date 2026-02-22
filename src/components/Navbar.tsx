@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Car, Menu, X, Phone, UserCircle } from "lucide-react";
+import Image from "next/image";
 import styles from "./Navbar.module.css";
 import { useAuth } from "@/lib/AuthContext";
 
@@ -23,7 +24,14 @@ const Navbar = () => {
         <nav className={`${styles.nav} ${isScrolled ? styles.scrolled : ""}`}>
             <div className={styles.container}>
                 <Link href="/" className={styles.logo}>
-                    <img src="/logo.png" alt="MAS Rent A Car" style={{ height: '48px', objectFit: 'contain' }} />
+                    <Image
+                        src="/logo.png"
+                        alt="MAS Rent A Car"
+                        width={180}
+                        height={60}
+                        style={{ objectFit: 'contain' }}
+                        priority
+                    />
                 </Link>
 
                 {/* Desktop Menu */}

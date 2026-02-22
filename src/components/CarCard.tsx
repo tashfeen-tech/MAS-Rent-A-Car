@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Users, Fuel, Gauge, CheckCircle2 } from "lucide-react";
+import Image from "next/image";
 import styles from "./CarCard.module.css";
 import { Car } from "@/data/fleet";
 
