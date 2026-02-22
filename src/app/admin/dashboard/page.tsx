@@ -86,14 +86,17 @@ export default function AdminDashboard() {
             })) as Booking[];
             setBookings(bookingData);
             setLoading(false);
+        }, (error) => {
+            console.error("Bookings listener error:", error);
+            setLoading(false);
         });
 
         return () => unsubscribe();
-    }, [user]);
+    }, [user, profile]);
 
     // Messages listener
     useEffect(() => {
-        if (!user) return;
+        if (!user || profile?.role !== "admin") return;
 
         const q = query(collection(db, "contactMessages"), orderBy("createdAt", "desc"));
         const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -102,10 +105,14 @@ export default function AdminDashboard() {
                 ...doc.data()
             })) as ContactMessage[];
             setMessages(msgData);
+            setLoading(false);
+        }, (error) => {
+            console.error("Messages listener error:", error);
+            setLoading(false);
         });
 
         return () => unsubscribe();
-    }, [user]);
+    }, [user, profile]);
 
     const updateStatus = async (id: string, status: string) => {
         try {

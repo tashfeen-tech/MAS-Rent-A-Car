@@ -2,8 +2,8 @@
     display: grid;
     grid-template-columns: 280px 1fr;
     min-height: 100vh;
-    background: #050505;
-    color: #fff;
+    background: var(--background);
+    color: var(--text-main);
 }
 
 .loader {
@@ -13,12 +13,12 @@
     justify-content: center;
     font-size: 18px;
     color: var(--primary);
-    background: #050505;
+    background: var(--background);
 }
 
 /* Sidebar */
 .sidebar {
-    background: var(--surface);
+    background: #ffffff;
     border-right: 1px solid var(--border);
     padding: 32px 24px;
     display: flex;
@@ -33,6 +33,7 @@
     font-weight: 800;
     letter-spacing: 1px;
     margin-bottom: 48px;
+    color: var(--text-main);
 }
 
 .nav {
@@ -56,13 +57,13 @@
 }
 
 .navItem:hover {
-    background: rgba(255, 255, 255, 0.03);
-    color: #fff;
+    background: var(--surface-hover);
+    color: var(--text-main);
 }
 
 .navItem.active {
     background: var(--primary);
-    color: #000;
+    color: #ffffff;
 }
 
 .badge {
@@ -80,8 +81,8 @@
 }
 
 .navItem.active .badge {
-    background: #000;
-    color: var(--primary);
+    background: #ffffff;
+    color: #ff4d4d;
 }
 
 .logoutBtn {
@@ -90,14 +91,14 @@
     align-items: center;
     gap: 12px;
     padding: 14px 18px;
-    color: #ff4d4d;
+    color: #dc3545;
     background: transparent;
     font-weight: 600;
     transition: var(--transition-smooth);
 }
 
 .logoutBtn:hover {
-    background: rgba(255, 77, 77, 0.1);
+    background: rgba(220, 53, 69, 0.1);
     border-radius: 12px;
 }
 
@@ -117,24 +118,29 @@
 .header h1 {
     font-size: 28px;
     font-weight: 700;
+    color: var(--text-main);
 }
 
 .userProfile {
     display: flex;
     align-items: center;
     gap: 16px;
+    color: var(--text-main);
+    font-weight: 500;
 }
 
 .avatar {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     background: var(--primary);
-    color: #000;
+    color: #ffffff;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 800;
+    font-size: 18px;
+    box-shadow: 0 4px 12px var(--primary-glow);
 }
 
 /* Stats Grid */
@@ -146,7 +152,7 @@
 }
 
 .statCard {
-    background: var(--surface);
+    background: #ffffff;
     border: 1px solid var(--border);
     padding: 24px;
     border-radius: 20px;
@@ -154,21 +160,26 @@
     justify-content: space-between;
     align-items: center;
     transition: var(--transition-smooth);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
 }
 
 .statCard:hover {
-    border-color: rgba(212, 175, 55, 0.3);
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
 }
 
 .statInfo p {
     color: var(--text-muted);
     font-size: 14px;
     margin-bottom: 8px;
+    font-weight: 500;
 }
 
 .statInfo h3 {
     font-size: 24px;
     font-weight: 700;
+    color: var(--text-main);
 }
 
 .statIcon {
@@ -182,10 +193,11 @@
 
 /* Table */
 .tableContainer {
-    background: var(--surface);
+    background: #ffffff;
     border: 1px solid var(--border);
     border-radius: 24px;
     overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
 }
 
 .tableHeader {
@@ -194,11 +206,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: #fafafa;
 }
 
 .tableHeader h2 {
     font-size: 18px;
     font-weight: 600;
+    color: var(--text-main);
 }
 
 .viewAllBtn {
@@ -225,11 +239,14 @@
     text-transform: uppercase;
     color: var(--text-muted);
     letter-spacing: 1px;
+    background: #fafafa;
+    font-weight: 600;
 }
 
 .table td {
     padding: 20px 32px;
     border-bottom: 1px solid var(--border);
+    background: #ffffff;
 }
 
 .customerInfo {
@@ -239,36 +256,40 @@
 
 .customerName {
     font-weight: 600;
+    color: var(--text-main);
 }
 
 .customerPhone {
     font-size: 12px;
     color: var(--text-muted);
+    margin-top: 4px;
 }
 
 .customerEmail {
     font-size: 11px;
     color: var(--text-muted);
-    opacity: 0.7;
+    opacity: 0.8;
 }
 
 .carInfo {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
 }
 
 .carName {
     font-weight: 600;
+    color: var(--text-main);
 }
 
 .driverTag {
     font-size: 10px;
-    background: rgba(212, 175, 55, 0.1);
+    background: var(--surface-hover);
     color: var(--primary);
-    padding: 2px 8px;
-    border-radius: 4px;
+    padding: 4px 8px;
+    border-radius: 6px;
     width: fit-content;
+    font-weight: 600;
 }
 
 .duration {
@@ -276,15 +297,20 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    color: var(--text-main);
 }
 
 .separator {
     color: var(--primary);
+    font-weight: bold;
 }
 
 .price {
     font-weight: 700;
     color: var(--primary);
+    background: var(--surface-hover);
+    padding: 6px 12px;
+    border-radius: 8px;
 }
 
 .timestamp {
@@ -301,17 +327,17 @@
 }
 
 .pending {
-    background: rgba(255, 193, 7, 0.1);
-    color: #ffc107;
+    background: rgba(255, 193, 7, 0.15);
+    color: #d39e00;
 }
 
 .confirmed {
-    background: rgba(40, 167, 69, 0.1);
+    background: rgba(40, 167, 69, 0.15);
     color: #28a745;
 }
 
 .cancelled {
-    background: rgba(220, 53, 69, 0.1);
+    background: rgba(220, 53, 69, 0.15);
     color: #dc3545;
 }
 
@@ -328,18 +354,29 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--background);
+    border: 1px solid var(--border);
     transition: var(--transition-smooth);
+}
+
+.approveBtn {
+    color: #28a745;
+}
+
+.rejectBtn {
+    color: #dc3545;
 }
 
 .approveBtn:hover {
     background: #28a745;
     color: #fff;
+    border-color: #28a745;
 }
 
 .rejectBtn:hover {
     background: #dc3545;
     color: #fff;
+    border-color: #dc3545;
 }
 
 .emptyTable {
@@ -357,78 +394,83 @@
 }
 
 .messagesList {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 16px;
 }
 
 .messageCard {
-    background: var(--surface);
+    background: #ffffff;
     border: 1px solid var(--border);
     border-radius: 20px;
     padding: 24px 28px;
     cursor: pointer;
     transition: var(--transition-smooth);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
 }
 
 .messageCard:hover {
-    border-color: rgba(212, 175, 55, 0.3);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
 }
 
 .messageCard.unread {
-    border-left: 3px solid var(--primary);
-    background: rgba(212, 175, 55, 0.02);
+    border-left: 4px solid var(--primary);
+    background: var(--surface-hover);
 }
 
 .messageTop {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 
 .messageSender {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 16px;
 }
 
 .senderAvatar {
-    width: 42px;
-    height: 42px;
+    width: 48px;
+    height: 48px;
     background: var(--primary);
-    color: #000;
+    color: #ffffff;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 800;
-    font-size: 16px;
+    font-size: 18px;
+    box-shadow: 0 4px 10px var(--primary-glow);
 }
 
 .senderName {
-    font-weight: 600;
-    font-size: 16px;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--text-main);
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
 .newBadge {
-    background: var(--primary);
-    color: #000;
+    background: #ff4d4d;
+    color: #fff;
     font-size: 10px;
     font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 4px;
+    padding: 4px 8px;
+    border-radius: 6px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 .senderContact {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--text-muted);
-    margin-top: 2px;
+    margin-top: 4px;
 }
 
 .messageActions {
@@ -438,32 +480,37 @@
 }
 
 .messageTime {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--text-muted);
+    background: var(--background);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 500;
 }
 
 .deleteBtn {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: transparent;
-    color: var(--text-muted);
+    color: #dc3545;
+    border: 1px solid rgba(220, 53, 69, 0.2);
     transition: var(--transition-smooth);
 }
 
 .deleteBtn:hover {
-    background: rgba(220, 53, 69, 0.15);
-    color: #dc3545;
+    background: #dc3545;
+    color: #ffffff;
 }
 
 .messageBody {
-    color: var(--text-muted);
+    color: var(--text-main);
     font-size: 15px;
-    line-height: 1.6;
-    padding-left: 56px;
+    line-height: 1.7;
+    padding-left: 64px;
 }
 
 @media (max-width: 1200px) {
@@ -492,5 +539,10 @@
 
     .statsGrid {
         grid-template-columns: 1fr;
+    }
+
+    .messageBody {
+        padding-left: 0;
+        margin-top: 16px;
     }
 }
