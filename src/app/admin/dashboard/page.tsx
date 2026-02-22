@@ -206,7 +206,7 @@ export default function AdminDashboard() {
             setIsCarModalOpen(false);
         } catch (err) {
             console.error(err);
-            alert("Error saving car");
+            alert("Error saving car: " + (err instanceof Error ? err.message : String(err)));
         } finally {
             setLoading(false);
         }
