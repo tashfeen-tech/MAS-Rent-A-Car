@@ -23,11 +23,7 @@ const Navbar = () => {
         <nav className={`${styles.nav} ${isScrolled ? styles.scrolled : ""}`}>
             <div className={styles.container}>
                 <Link href="/" className={styles.logo}>
-                    <Car size={32} className={styles.logoIcon} />
-                    <div className={styles.logoText}>
-                        <span className={styles.brandName}>MAS</span>
-                        <span className={styles.brandSub}>RENT A CAR</span>
-                    </div>
+                    <img src="/logo.png" alt="MAS Rent A Car" style={{ height: '48px', objectFit: 'contain' }} />
                 </Link>
 
                 {/* Desktop Menu */}
