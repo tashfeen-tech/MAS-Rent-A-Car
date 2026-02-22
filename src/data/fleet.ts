@@ -136,7 +136,7 @@ export const FLEET_DATA: Car[] = [
         type: 'SUV',
         transmission: 'Automatic',
         seats: 5,
-        image: '/cars/mg-hs.png',
+        image: '/cars/mg-hs-trophy.png',
         available: true,
         features: ['Turbo Engine', 'Panoramic Sunroof', 'Leather Seats', 'Ambient Lighting']
     },
