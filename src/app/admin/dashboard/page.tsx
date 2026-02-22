@@ -213,10 +213,13 @@ export default function AdminDashboard() {
     };
 
     const handleDeleteCar = async (docId: string) => {
-        if (!confirm("Delete this vehicle?")) return;
+        if (!window.confirm("Delete this vehicle?")) return;
         try {
             await deleteDoc(doc(db, "cars", docId));
-        } catch (e) { console.error(e); }
+        } catch (e) {
+            console.error(e);
+            alert("Error deleting car: " + (e instanceof Error ? e.message : String(e)));
+        }
     };
 
     const updateStatus = async (id: string, status: string) => {
@@ -236,7 +239,7 @@ export default function AdminDashboard() {
     };
 
     const deleteMessage = async (id: string) => {
-        if (!confirm("Delete this message?")) return;
+        if (!window.confirm("Delete this message?")) return;
         try {
             await deleteDoc(doc(db, "contactMessages", id));
         } catch (err) {
