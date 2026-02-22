@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import CarCard from "@/components/CarCard";
 import BookingModal from "@/components/BookingModal";
-import { FLEET_DATA, Car } from "@/data/fleet";
+import { Car } from "@/data/fleet";
+import { db } from "@/lib/firebase";
+import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import { motion } from "framer-motion";
 import styles from "./Fleet.module.css";
 
@@ -15,8 +17,23 @@ export default function FleetPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [activeType, setActiveType] = useState("All");
     const [seatFilter, setSeatFilter] = useState("Any");
+    const [fleetData, setFleetData] = useState<Car[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    const filtered = FLEET_DATA.filter((car) => {
+    useEffect(() => {
+        const q = query(collection(db, "cars"));
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const cars = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            })) as Car[];
+            setFleetData(cars);
+            setLoading(false);
+        });
+        return () => unsubscribe();
+    }, []);
+
+    const filtered = fleetData.filter((car) => {
         const typeMatch = activeType === "All" || car.type === activeType;
         const seatMatch =
             seatFilter === "Any" ||
@@ -43,7 +60,7 @@ export default function FleetPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7, delay: 0.15 }}
                     >
-                        {FLEET_DATA.length} vehicles available in Lahore — from sleek sedans to powerful 4x4s
+                        {loading ? "Loading vehicles..." : `${fleetData.length} vehicles available in Lahore — from sleek sedans to powerful 4x4s`}
                     </motion.p>
                 </div>
 

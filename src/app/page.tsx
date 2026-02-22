@@ -1,16 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import CarCard from "@/components/CarCard";
 import BookingModal from "@/components/BookingModal";
-import { FLEET_DATA, Car } from "@/data/fleet";
+import { Car } from "@/data/fleet";
+import { db } from "@/lib/firebase";
+import { collection, onSnapshot, query } from "firebase/firestore";
 import { motion } from "framer-motion";
 
 export default function Home() {
   const [selectedCar, setSelectedCar] = useState<Car | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [fleetData, setFleetData] = useState<Car[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const q = query(collection(db, "cars"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const cars = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as Car[];
+      setFleetData(cars);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
 
   const handleBookClick = (car: Car) => {
     setSelectedCar(car);
@@ -34,8 +51,7 @@ export default function Home() {
           </h2>
 
           <p style={{ color: 'var(--text-muted)', textAlign: 'center', maxWidth: '600px', margin: '0 auto 60px', fontSize: '18px' }}>
-            Choose from our diverse range of well-maintained vehicles for any occasion,
-            from daily commutes to grand celebrations.
+            {loading ? "Loading available vehicles..." : "Choose from our diverse range of well-maintained vehicles for any occasion, from daily commutes to grand celebrations."}
           </p>
         </motion.div>
 
@@ -44,7 +60,7 @@ export default function Home() {
           gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
           gap: '32px'
         }}>
-          {FLEET_DATA.map((car, index) => (
+          {fleetData.slice(0, 9).map((car, index) => (
             <motion.div
               key={car.id}
               initial={{ opacity: 0, y: 20 }}

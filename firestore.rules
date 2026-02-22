@@ -6,6 +6,11 @@ service cloud.firestore {
       return request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
 
+    match /cars/{carId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
     match /contactMessages/{messageId} {
       allow create: if true;
       allow read, update, delete: if isAdmin();

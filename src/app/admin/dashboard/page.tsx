@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { auth, db, storage } from "@/lib/firebase";
 import {
     collection, query, orderBy, onSnapshot, doc, updateDoc, addDoc, deleteDoc,
-    serverTimestamp, getCountFromServer
+    serverTimestamp, getCountFromServer, setDoc
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -54,11 +54,12 @@ interface ContactMessage {
     read: boolean;
 }
 
-type Tab = "dashboard" | "bookings" | "messages";
+type Tab = "dashboard" | "bookings" | "messages" | "fleet";
 
 export default function AdminDashboard() {
     const [bookings, setBookings] = useState<Booking[]>([]);
     const [messages, setMessages] = useState<ContactMessage[]>([]);
+    const [cars, setCars] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<Tab>("dashboard");
     const { user, profile, loading: authLoading, logout: authLogout } = useAuth();
@@ -113,6 +114,37 @@ export default function AdminDashboard() {
 
         return () => unsubscribe();
     }, [user, profile]);
+
+    // Cars listener
+    useEffect(() => {
+        if (!user || profile?.role !== "admin") return;
+
+        const unsubscribe = onSnapshot(collection(db, "cars"), (snapshot) => {
+            const carData = snapshot.docs.map(doc => ({
+                docId: doc.id,
+                ...doc.data()
+            }));
+            setCars(carData);
+        });
+
+        return () => unsubscribe();
+    }, [user, profile]);
+
+    const seedCars = async () => {
+        const { FLEET_DATA } = await import("@/data/fleet");
+        setLoading(true);
+        try {
+            for (const car of FLEET_DATA) {
+                await setDoc(doc(db, "cars", car.id), car);
+            }
+            alert("Fleet successfully seeded into Firestore!");
+        } catch (err) {
+            console.error(err);
+            alert("Error seeding fleet");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const updateStatus = async (id: string, status: string) => {
         try {
@@ -196,6 +228,13 @@ export default function AdminDashboard() {
                             <span className={styles.badge}>{stats.unreadMessages}</span>
                         )}
                     </div>
+                    <div
+                        className={`${styles.navItem} ${activeTab === "fleet" ? styles.active : ""}`}
+                        onClick={() => setActiveTab("fleet")}
+                    >
+                        <Car size={20} />
+                        Fleet
+                    </div>
                 </nav>
 
                 <button onClick={handleLogout} className={styles.logoutBtn}>
@@ -211,6 +250,7 @@ export default function AdminDashboard() {
                         {activeTab === "dashboard" && "Dashboard Overview"}
                         {activeTab === "bookings" && "All Bookings"}
                         {activeTab === "messages" && "Contact Messages"}
+                        {activeTab === "fleet" && "Manage Fleet"}
                     </h1>
                     <div className={styles.userProfile}>
                         <span>Welcome, Admin</span>
@@ -488,6 +528,51 @@ export default function AdminDashboard() {
                                         <p className={styles.messageBody}>{msg.message}</p>
                                     </div>
                                 ))}
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                {/* ========== FLEET TAB ========== */}
+                {activeTab === "fleet" && (
+                    <div className={styles.tableContainer}>
+                        <div className={styles.tableHeader}>
+                            <h2>Fleet Details ({cars.length})</h2>
+                            {cars.length === 0 && (
+                                <button className={styles.submitBtn} style={{ padding: "8px 16px", background: "var(--primary)", color: "#fff", border: "none", borderRadius: "8px", fontWeight: "bold", cursor: "pointer" }} onClick={seedCars}>
+                                    Seed Demo Cars
+                                </button>
+                            )}
+                        </div>
+                        <table className={styles.table}>
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Vehicle</th>
+                                    <th>Type</th>
+                                    <th>Transmission</th>
+                                    <th>Seats</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {cars.map((car) => (
+                                    <tr key={car.docId}>
+                                        <td>
+                                            <div style={{ width: '80px', height: '40px', background: '#f5f5f5', borderRadius: '8px', overflow: 'hidden' }}>
+                                                <img src={car.image} alt={car.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                                            </div>
+                                        </td>
+                                        <td><span className={styles.customerName}>{car.name}</span></td>
+                                        <td>{car.type}</td>
+                                        <td>{car.transmission}</td>
+                                        <td>{car.seats} Seats</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        {cars.length === 0 && (
+                            <div className={styles.emptyTable}>
+                                No cars in the fleet database. Click "Seed Demo Cars" to import them.
                             </div>
                         )}
                     </div>
