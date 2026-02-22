@@ -22,6 +22,9 @@ const BookingModal = ({ car, isOpen, onClose }: BookingModalProps) => {
         name: "",
         email: "",
         phone: "",
+        pickupDate: "",
+        returnDate: "",
+        withDriver: false,
         message: ""
     });
     const [loading, setLoading] = useState(false);
@@ -50,22 +53,29 @@ const BookingModal = ({ car, isOpen, onClose }: BookingModalProps) => {
         setError("");
 
         try {
-            await addDoc(collection(db, "contactMessages"), {
+            const start = new Date(formData.pickupDate);
+            const end = new Date(formData.returnDate);
+            const days = Math.ceil((end.getTime() - start.getTime()) / (1000 * 3600 * 24)) || 1;
+
+            await addDoc(collection(db, "bookings"), {
                 ...formData,
-                message: `[Inquiry for ${car.name}] ${formData.message}`,
                 carId: car.id,
                 carName: car.name,
                 carImage: car.image,
                 status: "pending",
                 userId: user?.uid || null,
                 createdAt: serverTimestamp(),
+                days: days > 0 ? days : 1,
+                totalPrice: 0, // Admin updates this
                 read: false
             });
             setSuccess(true);
             // Reset form
             setFormData(prev => ({
                 ...prev,
-                message: ""
+                message: "",
+                pickupDate: "",
+                returnDate: ""
             }));
             setTimeout(() => {
                 onClose();
@@ -124,7 +134,7 @@ const BookingModal = ({ car, isOpen, onClose }: BookingModalProps) => {
                             </div>
 
                             <div className={styles.formContainer}>
-                                <h2>Send Inquiry</h2>
+                                <h2>Book This Vehicle</h2>
 
                                 {!user && (
                                     <Link href="/auth" style={{
@@ -170,6 +180,47 @@ const BookingModal = ({ car, isOpen, onClose }: BookingModalProps) => {
                                                 value={formData.email}
                                                 onChange={e => setFormData({ ...formData, email: e.target.value })}
                                             />
+                                        </div>
+                                    </div>
+
+                                    <div className={styles.inputRow}>
+                                        <div className={styles.inputGroup}>
+                                            <label><Calendar size={16} /> Pickup Date</label>
+                                            <input
+                                                type="date"
+                                                required
+                                                value={formData.pickupDate}
+                                                onChange={e => setFormData({ ...formData, pickupDate: e.target.value })}
+                                            />
+                                        </div>
+                                        <div className={styles.inputGroup}>
+                                            <label><Calendar size={16} /> Return Date</label>
+                                            <input
+                                                type="date"
+                                                required
+                                                value={formData.returnDate}
+                                                onChange={e => setFormData({ ...formData, returnDate: e.target.value })}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className={styles.toggleGroup}>
+                                        <label style={{ fontSize: '14px', fontWeight: 600 }}>Do you need a driver?</label>
+                                        <div className={styles.toggle}>
+                                            <button
+                                                type="button"
+                                                className={!formData.withDriver ? styles.active : ""}
+                                                onClick={() => setFormData({ ...formData, withDriver: false })}
+                                            >
+                                                Self Drive
+                                            </button>
+                                            <button
+                                                type="button"
+                                                className={formData.withDriver ? styles.active : ""}
+                                                onClick={() => setFormData({ ...formData, withDriver: true })}
+                                            >
+                                                With Driver
+                                            </button>
                                         </div>
                                     </div>
 

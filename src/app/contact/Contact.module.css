@@ -170,7 +170,7 @@ a.infoValue:hover {
 
 .inputGroup input,
 .inputGroup textarea {
-    background: rgba(255, 255, 255, 0.04);
+    background: #ffffff;
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 14px 16px;

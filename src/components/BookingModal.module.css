@@ -52,7 +52,7 @@
 }
 
 .carInfo {
-    background: #111;
+    background: #fafafa;
     padding: 48px;
     border-right: 1px solid var(--border);
 }
@@ -60,7 +60,7 @@
 .carImagePlaceholder {
     width: 100%;
     aspect-ratio: 16/9;
-    background: #1a1a1a;
+    background: #f5f5f5;
     border-radius: 16px;
     display: flex;
     align-items: center;
@@ -151,11 +151,11 @@
 }
 
 .inputGroup input {
-    background: rgba(255, 255, 255, 0.05);
+    background: #f9f9f9;
     border: 1px solid var(--border);
     padding: 12px 16px;
     border-radius: 12px;
-    color: #fff;
+    color: var(--text-main);
     font-family: inherit;
     font-size: 15px;
     transition: var(--transition-smooth);
@@ -163,7 +163,7 @@
 
 .inputGroup input:focus {
     border-color: var(--primary);
-    background: rgba(255, 255, 255, 0.08);
+    background: #ffffff;
     outline: none;
 }
 

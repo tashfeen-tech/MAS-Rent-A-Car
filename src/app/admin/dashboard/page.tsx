@@ -62,6 +62,15 @@ export default function AdminDashboard() {
     const [cars, setCars] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<Tab>("dashboard");
+
+    // Car Modal State
+    const [isCarModalOpen, setIsCarModalOpen] = useState(false);
+    const [editingCar, setEditingCar] = useState<any>(null);
+    const [carForm, setCarForm] = useState({
+        name: "", type: "Sedan", transmission: "Automatic", seats: 4, image: "", features: ""
+    });
+    const [imageFile, setImageFile] = useState<File | null>(null);
+
     const { user, profile, loading: authLoading, logout: authLogout } = useAuth();
     const router = useRouter();
 
@@ -144,6 +153,70 @@ export default function AdminDashboard() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const openCreateCar = () => {
+        setEditingCar(null);
+        setCarForm({ name: "", type: "Sedan", transmission: "Automatic", seats: 4, image: "", features: "" });
+        setImageFile(null);
+        setIsCarModalOpen(true);
+    };
+
+    const openEditCar = (car: any) => {
+        setEditingCar(car);
+        setCarForm({
+            name: car.name,
+            type: car.type,
+            transmission: car.transmission,
+            seats: car.seats,
+            image: car.image,
+            features: car.features?.join(", ") || ""
+        });
+        setImageFile(null);
+        setIsCarModalOpen(true);
+    };
+
+    const handleSaveCar = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            let imgUrl = carForm.image;
+            if (imageFile) {
+                const storageRef = ref(storage, `fleet/${Date.now()}_${imageFile.name}`);
+                const snap = await uploadBytes(storageRef, imageFile);
+                imgUrl = await getDownloadURL(snap.ref);
+            }
+
+            const carPayload = {
+                name: carForm.name,
+                type: carForm.type,
+                transmission: carForm.transmission,
+                seats: Number(carForm.seats),
+                image: imgUrl,
+                features: carForm.features.split(",").map(f => f.trim()).filter(Boolean),
+                available: true
+            };
+
+            if (editingCar) {
+                await updateDoc(doc(db, "cars", editingCar.docId), carPayload);
+            } else {
+                const newId = carForm.name.toLowerCase().replace(/[^a-z0-9]/g, "-");
+                await setDoc(doc(db, "cars", newId), carPayload);
+            }
+            setIsCarModalOpen(false);
+        } catch (err) {
+            console.error(err);
+            alert("Error saving car");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleDeleteCar = async (docId: string) => {
+        if (!confirm("Delete this vehicle?")) return;
+        try {
+            await deleteDoc(doc(db, "cars", docId));
+        } catch (e) { console.error(e); }
     };
 
     const updateStatus = async (id: string, status: string) => {
@@ -538,11 +611,16 @@ export default function AdminDashboard() {
                     <div className={styles.tableContainer}>
                         <div className={styles.tableHeader}>
                             <h2>Fleet Details ({cars.length})</h2>
-                            {cars.length === 0 && (
-                                <button className={styles.submitBtn} style={{ padding: "8px 16px", background: "var(--primary)", color: "#fff", border: "none", borderRadius: "8px", fontWeight: "bold", cursor: "pointer" }} onClick={seedCars}>
-                                    Seed Demo Cars
+                            <div style={{ display: 'flex', gap: '12px' }}>
+                                <button className={styles.submitBtn} style={{ padding: "8px 16px", background: "var(--primary)", color: "#000", border: "none", borderRadius: "8px", fontWeight: "bold", cursor: "pointer", display: 'flex', alignItems: 'center', gap: '8px' }} onClick={openCreateCar}>
+                                    <Plus size={16} /> Add Car
                                 </button>
-                            )}
+                                {cars.length === 0 && (
+                                    <button className={styles.submitBtn} style={{ padding: "8px 16px", background: "#f5f5f5", color: "#000", border: "1px solid var(--border)", borderRadius: "8px", fontWeight: "bold", cursor: "pointer" }} onClick={seedCars}>
+                                        Seed Demo Cars
+                                    </button>
+                                )}
+                            </div>
                         </div>
                         <table className={styles.table}>
                             <thead>
@@ -552,6 +630,7 @@ export default function AdminDashboard() {
                                     <th>Type</th>
                                     <th>Transmission</th>
                                     <th>Seats</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -566,6 +645,16 @@ export default function AdminDashboard() {
                                         <td>{car.type}</td>
                                         <td>{car.transmission}</td>
                                         <td>{car.seats} Seats</td>
+                                        <td>
+                                            <div className={styles.actions}>
+                                                <button onClick={() => openEditCar(car)} className={styles.approveBtn} title="Edit">
+                                                    <Settings size={18} />
+                                                </button>
+                                                <button onClick={() => handleDeleteCar(car.docId)} className={styles.rejectBtn} title="Delete">
+                                                    <Trash2 size={18} />
+                                                </button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -578,6 +667,70 @@ export default function AdminDashboard() {
                     </div>
                 )}
             </main>
+
+            {/* Car Modal UI right inside the DOM */}
+            {isCarModalOpen && (
+                <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(5px)', zIndex: 3000, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }} onClick={() => setIsCarModalOpen(false)}>
+                    <div style={{ background: 'var(--surface)', padding: '40px', borderRadius: '24px', width: '100%', maxWidth: '600px', border: '1px solid var(--border)', position: 'relative' }} onClick={e => e.stopPropagation()}>
+                        <button onClick={() => setIsCarModalOpen(false)} style={{ position: 'absolute', top: '24px', right: '24px', background: 'transparent', border: 'none', color: 'var(--text-main)', cursor: 'pointer' }}>
+                            <XCircle size={24} />
+                        </button>
+                        <h2 style={{ marginBottom: '24px', fontSize: '24px', fontWeight: 700, color: 'var(--text-main)' }}>
+                            {editingCar ? 'Edit Vehicle' : 'Add New Vehicle'}
+                        </h2>
+
+                        <form onSubmit={handleSaveCar} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                    <label style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-muted)' }}>Name / Model</label>
+                                    <input required value={carForm.name} onChange={e => setCarForm({ ...carForm, name: e.target.value })} style={{ padding: '12px', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--background)' }} />
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                    <label style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-muted)' }}>Type</label>
+                                    <select required value={carForm.type} onChange={e => setCarForm({ ...carForm, type: e.target.value })} style={{ padding: '12px', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--background)' }}>
+                                        <option>Sedan</option>
+                                        <option>Premium Sedan</option>
+                                        <option>SUV</option>
+                                        <option>Van</option>
+                                        <option>Pickup / 4x4</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                    <label style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-muted)' }}>Transmission</label>
+                                    <select required value={carForm.transmission} onChange={e => setCarForm({ ...carForm, transmission: e.target.value })} style={{ padding: '12px', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--background)' }}>
+                                        <option>Automatic</option>
+                                        <option>Manual</option>
+                                    </select>
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                    <label style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-muted)' }}>Seats</label>
+                                    <input type="number" required value={carForm.seats} onChange={e => setCarForm({ ...carForm, seats: Number(e.target.value) })} style={{ padding: '12px', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--background)' }} />
+                                </div>
+                            </div>
+
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                <label style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-muted)' }}>Features (comma separated)</label>
+                                <input placeholder="AC, GPS, Bluetooth..." value={carForm.features} onChange={e => setCarForm({ ...carForm, features: e.target.value })} style={{ padding: '12px', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--background)' }} />
+                            </div>
+
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                <label style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-muted)' }}>Car Image</label>
+                                {carForm.image && !imageFile && (
+                                    <img src={carForm.image} alt="Preview" style={{ height: '100px', objectFit: 'contain', background: '#f5f5f5', borderRadius: '8px', marginBottom: '8px' }} />
+                                )}
+                                <input type="file" accept="image/*" onChange={e => setImageFile(e.target.files?.[0] || null)} style={{ padding: '12px', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--background)' }} />
+                            </div>
+
+                            <button type="submit" disabled={loading} style={{ padding: '16px', borderRadius: '12px', background: 'var(--primary)', color: '#000', fontWeight: 'bold', border: 'none', cursor: 'pointer', marginTop: '10px' }}>
+                                {loading ? "Saving..." : "Save Vehicle"}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
