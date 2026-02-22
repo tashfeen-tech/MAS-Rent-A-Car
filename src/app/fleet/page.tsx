@@ -129,7 +129,7 @@ export default function FleetPage() {
                                     onClick={() => { setSelectedCar(car); setIsModalOpen(true); }}
                                     style={{ cursor: "pointer" }}
                                 >
-                                    <CarCard car={car} />
+                                    <CarCard car={car} priority={i < 4} />
                                 </motion.div>
                             ))
                         )}

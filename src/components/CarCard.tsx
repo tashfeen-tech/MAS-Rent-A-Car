@@ -8,20 +8,24 @@ import { Car } from "@/data/fleet";
 
 interface CarCardProps {
     car: Car;
+    priority?: boolean;
 }
 
-const CarCard = ({ car }: CarCardProps) => {
+const CarCard = ({ car, priority = false }: CarCardProps) => {
     return (
         <motion.div
             whileHover={{ y: -10 }}
             className={styles.card}
         >
-            <div className={styles.imageContainer}>
-                <img
+            <div className={styles.imageContainer} style={{ position: 'relative', width: '100%', height: '220px' }}>
+                <Image
                     src={car.image}
                     alt={car.name}
                     className={styles.carImage}
-                    loading="lazy"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    style={{ objectFit: 'contain' }}
+                    priority={priority}
                 />
                 <span className={styles.carTypeBadge}>{car.type}</span>
             </div>

@@ -70,7 +70,7 @@ export default function Home() {
               onClick={() => handleBookClick(car)}
               style={{ cursor: 'pointer' }}
             >
-              <CarCard car={car} />
+              <CarCard car={car} priority={index < 3} />
             </motion.div>
           ))}
         </div>
